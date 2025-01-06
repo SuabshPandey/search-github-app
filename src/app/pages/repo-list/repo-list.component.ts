@@ -1,14 +1,16 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RepoService } from '../../service/repo.service';
 import { RouterModule } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { ErrorComponent } from '../../common/error/error.component';
+import { LoaderComponent } from "../../common/loader/loader.component";
 
 @Component({
   selector: 'app-repo-list',
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, ErrorComponent, LoaderComponent],
   templateUrl: './repo-list.component.html',
   styleUrl: './repo-list.component.scss',
 
@@ -19,7 +21,8 @@ export class RepoListComponent implements OnInit {
   selectedSortOption: string = 'stars';
   searchQuery: string = '';
   repos: any[] = [];
-  
+  hasError: boolean = false;
+  @Input() errorMessage: string = '';
 
   // Pagination related variables
   currentPage: number = 1;
@@ -47,8 +50,8 @@ export class RepoListComponent implements OnInit {
   }
   onSearch(event: Event) {
     console.log("event", event);
-    if(event !== null){
-    this.searchQuerySubject.next(this.searchQuery);
+    if (event !== null) {
+      this.searchQuerySubject.next(this.searchQuery);
     }
 
   }
@@ -57,17 +60,23 @@ export class RepoListComponent implements OnInit {
     this.isLoading = true;
     this.repoService.getRepoList(this.searchQuery, this.currentPage, this.perPage, this.selectedSortOption, 'desc').subscribe({
       next: (res) => {
+        this.hasError = false;
         this.repos = res?.items;
         this.totalResults = res?.total_count;
         this.totalPages = Math.ceil(this.totalResults / this.perPage);
         this.isLoading = false
       },
       error: (err) => {
-        this.repos = [];
-        this.selectedSortOption = 'stars';
-        this.totalResults = 0;
-        this.totalPages = 0;
-        this.isLoading = false
+        if (err) {
+          console.log("error ", err)
+          this.hasError = true;
+          this.errorMessage = err?.error?.message || 'An error occurred. Please try again later.';
+          this.repos = [];
+          this.selectedSortOption = 'stars';
+          this.totalResults = 0;
+          this.totalPages = 0;
+          this.isLoading = false
+        }
       }
     })
   }
@@ -97,6 +106,4 @@ export class RepoListComponent implements OnInit {
     this.currentPage = 1;
     this.fetchRepos();
   }
-
-
 }

@@ -38,7 +38,6 @@
                         <p class="text-gray-600 mt-2">{{repo?.description ? repo?.description : 'N/A'}}</p>
                         <div class="mt-4 flex flex-wrap gap-4">
                             <p class="text-sm text-gray-500">
-                                <!-- <fa-icon [icon]="['fas', 'user']" class="mr-2"></fa-icon> -->
                                 <strong><i class="bi bi-github"></i> Author:</strong> {{repo?.owner?.login ?
                                 repo?.owner?.login : 'N/A'}}
                             </p>
@@ -92,13 +91,15 @@
 
     </div>
     } @else if (isLoading) {
-    <div class="mt-16 flex justify-center items-center">
-        <img src="https://github.githubassets.com/images/spinners/octocat-spinner-128.gif" alt="Loading..."
-            class="w-30 h-30" />
-    </div>
-    } @else if (repos.length === 0) {
+    <app-loader></app-loader>
+    } @else if (repos.length === 0 && !hasError) {
     <div class="mt-16 flex justify-center items-center">
         <p class="text-lg text-gray-500">No Repositories Found</p>
+    </div>
+
+    } @else if (hasError) {
+    <div class="mt-16 flex justify-center items-center">
+        <app-error [errorMessage]="errorMessage"></app-error>
     </div>
     }
 </div>

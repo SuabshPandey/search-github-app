@@ -21,21 +21,12 @@ export class RepoService {
     })
 
 
-    return this.http.get(`${environment.API_URL}/search/repositories?${queryParams}`).pipe(
-      catchError((err) => {
-        console.log("Error in fetching api", err);
-        return err
-      })
-    )
+    return this.http.get(`${environment.API_URL}/search/repositories?${queryParams}`)
+    
   }
 
   getRepoDetails(owner: string, repo: string): Observable<any> {
-    return this.http.get(`${environment.API_URL}/repos/${owner}/${repo}`).pipe(
-      catchError((err) => {
-        console.log("Error in fetching api", err);
-        return err
-      })
-    )
+    return this.http.get(`${environment.API_URL}/repos/${owner}/${repo}`)
   }
 
 }
