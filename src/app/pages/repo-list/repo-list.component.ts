@@ -2,17 +2,18 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RepoService } from '../../service/repo.service';
-import { provideHttpClient } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-repo-list',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule,],
   templateUrl: './repo-list.component.html',
   styleUrl: './repo-list.component.scss',
 
 
 })
 export class RepoListComponent implements OnInit {
+  isLoading: boolean = false;
   selectedSortOption: string = 'stars';
   searchQuery: string = '';
   repos: any[] = [];
@@ -20,33 +21,22 @@ export class RepoListComponent implements OnInit {
   constructor(private repoService: RepoService) { }
 
   ngOnInit() {
-    // this.repoService.getTest().subscribe({
-    //   next: (res) => {
-
-    //     this.repos = res
-    //   },
-    //   error: (err) => {
-    //     console.log("Error", err);
-    //   }
-    // })
-
-
   }
   onSearch() {
     console.log("Search Term", this.searchQuery);
-
+    this.isLoading = true;
     this.repoService.getRepoList(this.searchQuery, 1, 10, 'stars', 'desc').subscribe({
       next: (res) => {
         console.log("Response from repo api", res);
         this.repos = res?.items
+        this.isLoading = false
       },
       error: (err) => {
         console.log("Error", err);
+        this.isLoading = false
+        this.repos = []
       }
     })
-
-
-
   }
 
   onSort(event: any) {
@@ -54,5 +44,9 @@ export class RepoListComponent implements OnInit {
     console.log("Sort Event Value", event?.target?.value);
 
   }
+
+
+
+
 
 }

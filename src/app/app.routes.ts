@@ -5,5 +5,5 @@ import { RepoDetailComponent } from './pages/repo-detail/repo-detail.component';
 export const routes: Routes = [
     { path: '', redirectTo: 'list', pathMatch: 'full' },
     { path: 'list', component: RepoListComponent },
-    { path: 'details/:id', component: RepoDetailComponent }
+    { path: 'details/:owner/:repo', component: RepoDetailComponent }
 ];

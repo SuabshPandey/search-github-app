@@ -29,13 +29,13 @@ export class RepoService {
     )
   }
 
-  getTest(): Observable<any> {
-    return this.http.get(
-      environment.test_url + '/posts'
+  getRepoDetails(owner: string, repo: string): Observable<any> {
+    return this.http.get(`${environment.API_URL}/repos/${owner}/${repo}`).pipe(
+      catchError((err) => {
+        console.log("Error in fetching api", err);
+        return err
+      })
     )
   }
-
-  // https://jsonplaceholder.typicode.com/posts
-
 
 }

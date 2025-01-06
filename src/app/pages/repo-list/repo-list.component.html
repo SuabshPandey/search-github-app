@@ -1,5 +1,11 @@
-<div
-    class="search_wrapper w-4/5  m-auto flex flex-col items-center justify-center pb-8">
+<div class="search_wrapper w-4/5  m-auto flex flex-col items-center justify-center pb-8">
+    <div class="top_content">
+        <h1 class="text-3xl font-bold pt-8">Github Repository Search App</h1>
+        <p class="mt-4">Single Page Application For GitHub Repositories Listing
+        </p>
+    </div>
+
+
     <div class="flex flex-col md:flex-row items-center gap-4 w-full max-w-2xl mx-auto mt-8 ">
         <input type="text" placeholder="Search Repositories"
             class="w-full p-3 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500"
@@ -15,7 +21,7 @@
 
 
 
-    @if (repos.length !== 0) {
+    @if (repos.length !== 0 && !isLoading) {
     <div class="sort_wrapper w-3/4 mt-8 p-4 flex justify-between items-center">
         <p>Total Results: {{ repos.length }}</p>
 
@@ -28,7 +34,7 @@
         </select>
     </div>
     <div class="repo_list_wrapper flex justify-center">
-        <div class=" grid grid-cols-1 sm:grid-cols-1 gap-4 mt-8 p-3 w-1/2 min-w-1/2">
+        <div class=" grid grid-cols-1 sm:grid-cols-1 gap-4 mt-8 p-3 w-3/4 min-w-3/4">
             @for (repo of repos; track $index) {
             <div class="p-4 flex justify-start gap-5 border border-grey-300 rounded-lg">
                 <div class="img_div max-w-28  max-h-28 object-cover  ">
@@ -40,12 +46,13 @@
 
                     <div class="flex flex-col gap-2 mt-2">
                         <div class="flex gap-2">
-                            <p class="text-sm">Stars: {{repo?.stargazers_count ? repo?.stargazers_count : 'N/A'}}</p>
+                            <p class="text-sm">Stars: {{repo?.stargazers_count ? repo?.stargazers_count : 'N/A'}}
+                            </p>
                             <p class="text-sm">Forks: {{repo?.forks_count ? repo?.forks_count : 'N/A'}}</p>
                         </div>
-                        <a href={{repo?.html_url}} target="_blank"
-                            class="p-2 text-sm w-36 text-center text-black border border-lg rounded-md hover:bg-blue-300 focus:ring-blue-500 focus-outline-none transition-all ">View
-                            Repo
+                        <a [routerLink]="['/details', repo?.owner?.login , repo?.name]" target="_self"
+                            class="p-2 text-sm w-36 text-center text-black border border-lg rounded-md hover:bg-blue-300 focus:ring-blue-500 focus-outline-none transition-all ">
+                            View Detail
                         </a>
                     </div>
                 </div>
@@ -53,5 +60,17 @@
             }
         </div>
     </div>
+    } @else if (isLoading) {
+    <div class="loader_wrapper flex justify-center items-center mt-8">
+        <div class="loader">
+            <img src="https://github.githubassets.com/images/spinners/octocat-spinner-128.gif" alt="">
+
+        </div>
+    </div>
+    } @else if (repos.length === 0) {
+    <div class="flex justify-center items-center mt-8">
+        <p>No Repositories Found</p>
+    </div>
     }
+
 </div>
