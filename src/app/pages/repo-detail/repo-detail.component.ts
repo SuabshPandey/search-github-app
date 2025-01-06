@@ -2,13 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RepoService } from '../../service/repo.service';
 import { CommonModule, DatePipe } from '@angular/common';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faStar, faCodeBranch, faExclamationCircle, faClock, faCode } from '@fortawesome/free-solid-svg-icons';
-
 @Component({
   selector: 'app-repo-detail',
-  imports: [CommonModule, DatePipe, FontAwesomeModule],
+  imports: [CommonModule, DatePipe],
   templateUrl: './repo-detail.component.html',
   styleUrl: './repo-detail.component.scss'
 })
@@ -16,19 +12,9 @@ export class RepoDetailComponent implements OnInit {
 
   repoName: string | null = null;
   ownerName: string | null = null;
-  repoDetails: any = {
-    owner: {
-      login: 'Subash Pandey',
-      avatar_url: '/images/test-github.jpeg',
-    },
-    name: 'Sh Furniture Udhyog',
-    description: 'hellloooooooooooooooo',
-    created_at: '',
-    updated_at: '',
-  };
+  repoDetails: any;
 
-  constructor(private route: ActivatedRoute, private repoService: RepoService, library: FaIconLibrary) {
-    library.addIcons(faStar, faCodeBranch, faExclamationCircle, faClock, faCode);
+  constructor(private route: ActivatedRoute, private repoService: RepoService) {
   }
 
   ngOnInit(): void {

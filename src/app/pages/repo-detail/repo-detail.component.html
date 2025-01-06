@@ -8,8 +8,9 @@
             </div>
             <h3 class="text-2xl font-semibold text-gray-800">{{
                 repoDetails?.owner?.login }} </h3>
-            <a [href]="repoDetails?.owner?.html_url" target="_blank" class="text-xs font-semibold underline text-gray-600">
-                Github Profile
+            <a [href]="repoDetails?.owner?.html_url" target="_blank"
+                class="text-xs font-semibold underline text-gray-600">
+                <i class="bi bi-github"></i> Github Profile
             </a>
             <!-- <p class="text-gray-600 mt-2">Type: {{ repoDetails?.owner?.type || 'N/A' }}</p> -->
         </div>
@@ -25,20 +26,19 @@
 
         <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="text-gray-700">
-                <fa-icon icon="star" class=""></fa-icon>
-                <strong>Stars:</strong> {{ repoDetails?.stargazers_count }}
+                <strong> <i class="bi bi-star"></i> Stars:</strong> {{ repoDetails?.stargazers_count }}
             </div>
             <div class="text-gray-700">
-                <strong>Forks:</strong> {{ repoDetails?.forks_count }}
+                <strong> <i class="bi bi-diagram-2 rotate-180"></i> Forks:</strong> {{ repoDetails?.forks_count }}
             </div>
             <div class="text-gray-700">
-                <strong>Open Issues:</strong> {{ repoDetails?.open_issues_count }}
+                <strong> <i class="bi bi-record2"></i> Open Issues:</strong> {{ repoDetails?.open_issues_count }}
             </div>
             <div class="text-gray-700">
-                <strong>Last Updated:</strong> {{ repoDetails?.updated_at | date }}
+                <strong> <i class="bi bi-clock-history"></i> Last Updated:</strong> {{ repoDetails?.updated_at | date }}
             </div>
             <div class="text-gray-700">
-                <strong>Default Branch:</strong> {{ repoDetails?.default_branch }}
+                <strong> <i class="bi bi-share"></i> Default Branch:</strong> {{ repoDetails?.default_branch }}
             </div>
         </div>
 
