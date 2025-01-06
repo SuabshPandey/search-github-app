@@ -49,9 +49,15 @@ export class RepoListComponent implements OnInit {
 
   }
   onSearch(event: Event) {
-    console.log("event", event);
-    if (event !== null) {
-      this.searchQuerySubject.next(this.searchQuery);
+    if (this.searchQuery.trim() !== '' && this.searchQuery.trim().length >= 1) {
+      this.searchQuerySubject.next(this.searchQuery.trim());
+    } else {
+      this.hasError = true;
+      this.errorMessage = 'Please enter a search query';
+      this.repos = [];
+      this.selectedSortOption = 'stars';
+      this.totalResults = 0;
+      this.totalPages = 0;
     }
 
   }
@@ -68,7 +74,6 @@ export class RepoListComponent implements OnInit {
       },
       error: (err) => {
         if (err) {
-          console.log("error ", err)
           this.hasError = true;
           this.errorMessage = err?.error?.message || 'An error occurred. Please try again later.';
           this.repos = [];

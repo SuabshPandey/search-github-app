@@ -1,59 +1,115 @@
-# GithubRepoSearchApp
+# GitHub Repository Search App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.3.
+## Author
 
-## Development server
+- [Subash Pandey](https://github.com/SuabshPandey/)
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
+## Overview
+
+The GitHub Repository Search App is a single-page application (SPA) that allows users to search for GitHub repositories, sort the results, and view detailed information about each repository.
+
+---
+
+## Features
+
+- **Search Functionality**: Search for GitHub repositories by repository name.
+- **Sorting Options**: Sort results by stars, forks, or last updated.
+- **Pagination**: Navigate through search results with pagination controls.
+- **Repository Details**:
+  - Full owner name (linked to the GitHub page).
+  - Repository name (linked to the GitHub page).
+  - Number of open issues.
+  - Default branch.
+- **Error Handling**: User-friendly error messages for API errors or invalid inputs.
+- **Loading State**: Visual loader during API calls.
+
+---
+
+## Installation
+
+1. **Clone the Repository:**
+
+   ```bash
+   git clone https://github.com/your-username/github-repo-search-app.git
+   cd github-repo-search-app
+   ```
+
+2. **Install Dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Set Environment Variables:**
+
+   - Create an `.env` file in the root directory.
+   - Add the following:
+     ```env
+     API_URL=https://api.github.com
+     ```
+
+4. **Run the Application:**
+   ```bash
+   ng serve
+   ```
+   Open your browser and navigate to `http://localhost:4200`.
+
+---
+
+## Components
+
+### **RepoListComponent**
+
+- Displays a searchable list of GitHub repositories.
+- Handles search, sorting, and pagination.
+- Communicates with `RepoService` for fetching data from the GitHub API.
+
+### **RepoDetailComponent**
+
+- Displays detailed information about a selected repository.
+- Fetches and displays the repository's README.md content.
+
+---
+
+## Services
+
+### **RepoService**
+
+- Responsible for communicating with the GitHub API.
+- Methods:
+  - `getRepoList`: Fetches a list of repositories based on the search query.
+  - `getRepoDetails`: Fetches detailed information about a specific repository, including its README.md content.
+
+---
+
+## Routing
+
+```typescript
+  { path: "list", component: RepoListComponent },
+  { path: "details/:owner/:repo", component: RepoDetailComponent }
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## API Reference
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+1. **Search Repositories**
 
-```bash
-ng generate component component-name
-```
+   ```
+   GET https://api.github.com/search/repositories?q={query}&page={page}&per_page={perPage}&sort={sort}&order={order}
+   ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+2. **Get Repository Details**
+   ```
+   GET https://api.github.com/repos/{owner}/{repo}
+   ```
 
-```bash
-ng generate --help
-```
+---
 
-## Building
+## Development Notes
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- **Debouncing**: Prevents unnecessary API calls by adding a delay to the search input.
+- **DistinctUntilChanged**: Avoids duplicate API calls for the same query.
+- **Error Handling**: Displays error messages when the API fails or the search query is invalid.
